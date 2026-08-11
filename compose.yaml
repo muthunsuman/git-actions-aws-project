@@ -1,0 +1,6 @@
+services:
+  gitactionsawsproject:
+    image: gitactionsawsproject
+    build:
+      context: .
+      dockerfile: ./Dockerfile
