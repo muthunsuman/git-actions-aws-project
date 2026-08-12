@@ -21,10 +21,5 @@ pipeline {
         sh 'mvn package'
       }
     }
-    stage('Deploy') {
-      steps {
-        sh 'scp target/*.war ec2-user@<EC2-IP>:/opt/tomcat/webapps/'
-      }
-    }
   }
 }
