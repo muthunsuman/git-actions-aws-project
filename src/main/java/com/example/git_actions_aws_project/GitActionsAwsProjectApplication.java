@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GitActionsAwsProjectApplication extends SpringBootServletInitializer {
 
-    @GetMapping("/")
+    @GetMapping("/HomeController")
     public String home() {
         return "Hello from Spring Boot AWS CI/CD!";
     }
