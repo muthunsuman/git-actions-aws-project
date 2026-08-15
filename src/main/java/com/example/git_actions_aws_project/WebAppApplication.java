@@ -7,21 +7,18 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
-@RestController
-public class GitActionsAwsProjectApplication extends SpringBootServletInitializer {
 
-    @GetMapping("/HomeController")
-    public String home() {
-        return "Hello from Spring Boot AWS CI/CD!";
-    }
 
+  @SpringBootApplication
+public class WebAppApplication extends SpringBootServletInitializer {
     @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(GitActionsAwsProjectApplication.class);
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(WebAppApplication.class);
     }
+
+
 
     public static void main(String[] args) {
-        SpringApplication.run(GitActionsAwsProjectApplication.class, args);
+        SpringApplication.run(WebAppApplication.class, args);
     }
 }
