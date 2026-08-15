@@ -1,29 +1,37 @@
 pipeline {
     agent any
+
     stages {
-        stage('Build') {
+        stage('Checking out the code from GITHUB') {
             steps {
-                sh 'mvn clean install'
+                git branch: 'main',
+                    url: 'https://github.com/muthunsuman/git-actions-aws-project.git'
             }
         }
-        stage('Test') {
+
+        stage('Compile the Code') {
             steps {
-                sh 'mvn test'
+                sh '/opt/maven/maven/bin/mvn clean package'
             }
         }
-        stage('SonarQube Analysis') {
+
+        stage('SonarQube Code Analysis') {
             steps {
-                sh 'mvn sonar:sonar'
+                script {
+                    withSonarQubeEnv('sonarqube-service') {
+                        sh 'mvn sonar:sonar'
+                    }
+                }
             }
         }
-        stage('Packages') {
+
+        stage('Quality Gate') {
             steps {
-                sh 'mvn package'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh 'mvn deploy'
+                script {
+                    timeout(time: 1, unit: 'HOURS') {
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
             }
         }
     }
