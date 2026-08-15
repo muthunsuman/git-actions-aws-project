@@ -34,5 +34,22 @@ pipeline {
                 }
             }
         }
+
+        stage('Upload to S3 Artifactory') {
+            steps {
+                sh 'aws s3 cp /var/lib/jenkins/workspace/cicproject/target/git-actions-aws-project-0.0.1-SNAPSHOT.jar s3://jenkins-pipeline-sbucket/snapshot-artifacts/15aug.jar'
+            }
+        }
+stage('Deploy to Tomcat QA Server') {
+    steps {
+        sshagent(['tomcat']) {
+            sh """
+                scp -o StrictHostKeyChecking=no \
+                /var/lib/jenkins/workspace/cicproject/target/git-actions-aws-project-0.0.1-SNAPSHOT.jar \
+                ubuntu@13.207.61.141:/opt/tomcat9/webapps/
+            """
+        }
+    }
+}
     }
 }
